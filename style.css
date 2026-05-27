@@ -126,6 +126,10 @@ tr:hover {
     width: 55px;
 }
 
+#splitTable td:nth-child(1)::after {
+    content: ".";
+}
+
 /* LEWA NAZWA */
 #splitTable td:nth-child(2) {
     width: var(--left-name-width);
@@ -136,6 +140,7 @@ tr:hover {
 
     white-space: nowrap;
 }
+
 
 /* LEWE PUNKTY */
 #splitTable td:nth-child(3) {
@@ -156,6 +161,10 @@ tr:hover {
 
     /* GŁÓWNA REGULACJA */
     padding-left: var(--middle-gap);
+}
+
+#splitTable td:nth-child(4)::after {
+    content: ".";
 }
 
 /* PRAWA NAZWA */
