@@ -74,6 +74,9 @@ tr:hover {
 #fullTable td:nth-child(1) {
     width: 60px;
 }
+#fullTable td:nth-child(1)::after {
+    content: ".";
+}
 
 /* nazwa */
 #fullTable td:nth-child(2) {
@@ -91,6 +94,8 @@ tr:hover {
     font-weight: bold;
 }
 
+
+
 /* =========================
    SPLIT TABLE
 ========================= */
@@ -107,7 +112,7 @@ tr:hover {
     --left-name-width: 220px;
 
     /* ODSTĘP MIĘDZY TABELAMI */
-    --middle-gap: 120px;
+    --middle-gap: 75px;
 
     /* szerokość prawej nazwy */
     --right-name-width: 220px;
