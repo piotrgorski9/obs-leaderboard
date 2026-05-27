@@ -1,0 +1,16 @@
+[
+    {
+        "nick":"Gracz1",
+        "punkty":120
+    },
+
+    {
+        "nick":"Gracz2",
+        "punkty":95
+    },
+
+    {
+        "nick":"Gracz3",
+        "punkty":77
+    }
+]

@@ -1,0 +1,174 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: transparent;
+    color: white;
+}
+
+/* UKŁAD */
+.layout {
+    display: flex;
+    gap: 160px;
+    /* większy odstęp między tabelami */
+    align-items: flex-start;
+}
+
+/* PANEL */
+.panel {
+    padding: 18px;
+    border-radius: 12px;
+}
+
+/* FULL TABLE */
+.panel.full {
+    width: 760px;
+    /* było 620 */
+
+    background: linear-gradient(135deg,
+            #240a3a,
+            #4b1f7a,
+            #240a3a);
+}
+
+/* SPLIT TABLE */
+.panel.split {
+    width: 700px;
+    /* było 580 */
+
+    background: linear-gradient(135deg,
+            #240a3a,
+            #4b1f7a,
+            #240a3a);
+}
+
+/* TABELA */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 16px;
+}
+
+/* HEADER */
+th {
+    padding: 12px 18px;
+    text-align: center;
+}
+
+/* KOMÓRKI */
+td {
+    padding: 12px 18px;
+    text-align: center;
+}
+
+/* HOVER */
+tr:hover {
+    background: rgba(212, 175, 55, 0.08);
+}
+
+/* =========================
+   FULL TABLE
+========================= */
+
+/* numer */
+#fullTable td:nth-child(1) {
+    width: 60px;
+}
+
+/* nazwa */
+#fullTable td:nth-child(2) {
+    width: 420px;
+    /* DUŻO więcej miejsca */
+    text-align: left;
+    padding-left: 28px;
+    white-space: nowrap;
+}
+
+/* punkty */
+#fullTable td:nth-child(3) {
+    width: 120px;
+    color: #f5d36a;
+    font-weight: bold;
+}
+
+/* =========================
+   SPLIT TABLE
+========================= */
+
+#splitTable th,
+#splitTable td {
+    font-size: 15px;
+}
+
+/* ===== REGULACJA ===== */
+
+/* szerokość lewej części */
+:root {
+    --left-name-width: 220px;
+
+    /* ODSTĘP MIĘDZY TABELAMI */
+    --middle-gap: 120px;
+
+    /* szerokość prawej nazwy */
+    --right-name-width: 220px;
+
+    /* szerokość punktów */
+    --points-width: 90px;
+}
+
+/* LEWA POZYCJA */
+#splitTable td:nth-child(1) {
+    width: 55px;
+}
+
+/* LEWA NAZWA */
+#splitTable td:nth-child(2) {
+    width: var(--left-name-width);
+
+    text-align: left;
+
+    padding-left: 20px;
+
+    white-space: nowrap;
+}
+
+/* LEWE PUNKTY */
+#splitTable td:nth-child(3) {
+
+    width: var(--points-width);
+
+    color: #f5d36a;
+    font-weight: bold;
+
+    /* GŁÓWNA REGULACJA */
+    padding-right: var(--middle-gap);
+}
+
+/* PRAWA POZYCJA */
+#splitTable td:nth-child(4) {
+
+    width: 70px;
+
+    /* GŁÓWNA REGULACJA */
+    padding-left: var(--middle-gap);
+}
+
+/* PRAWA NAZWA */
+#splitTable td:nth-child(5) {
+
+    width: var(--right-name-width);
+
+    text-align: left;
+
+    padding-left: 20px;
+
+    white-space: nowrap;
+}
+
+/* PRAWE PUNKTY */
+#splitTable td:nth-child(6) {
+
+    width: var(--points-width);
+
+    color: #f5d36a;
+    font-weight: bold;
+}
