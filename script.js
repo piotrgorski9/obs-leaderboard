@@ -1,73 +1,175 @@
-const SHEET_URL =
-    "https://docs.google.com/spreadsheets/d/1_UzkJYMvmeVGGY8EqZ-JH2WLmgThxmD13cn7Nu3pVa0/gviz/tq?tqx=out:json";
+const API_URL =
+    "https://script.google.com/macros/s/AKfycbxjERza_-H5D_3AockRci_qpAHGEcnsA3tDwbDCg3Z73uBU75Ru_KS6AlU541koRYvV/exec";
+let lastHash = null;
 
-async function loadTable() {
 
-    const response = await fetch(SHEET_URL, {
-        cache: "no-store"
-    });
 
-    const text = await response.text();
+async function checkRanking() {
 
-    const json = JSON.parse(
-        text.substring(47).slice(0, -2)
-    );
+    try {
 
-    if (!json.table || !json.table.rows) return;
 
-    let players = json.table.rows.map(r => ({
-        name: r.c[0]?.v ?? "",
-        points: Number(r.c[1]?.v ?? 0)
-    }));
+        const response = await fetch(
+            API_URL + "?t=" + Date.now()
+        );
 
-    players.sort((a, b) => b.points - a.points);
 
-    const fullBody = document.querySelector("#fullTable tbody");
-    const splitBody = document.querySelector("#splitTable tbody");
+        const data = await response.json();
 
-    const top32 = players.slice(0, 32);
 
-    /* =========================
-       PEŁNA TABELA
-    ========================= */
-    let fullHTML = "";
+        console.log(data);
 
-    players.forEach((p, i) => {
-        fullHTML += `
-            <tr>
-                <td>${i + 1}</td>
-                <td>${p.name}</td>
-                <td>${p.points}</td>
-            </tr>
-        `;
-    });
 
-    /* =========================
-       SPLIT TABELA (1–16 | 17–32)
-    ========================= */
-    let splitHTML = "";
 
-    for (let i = 0; i < 16; i++) {
+        if (data.hash === lastHash) {
 
-        const left = top32[i];
-        const right = top32[i + 16];
+            return;
 
-        splitHTML += `
-        <tr>
-            <td>${left ? i + 1 : ""}</td>
-            <td style="text-align:left;">${left ? left.name : ""}</td>
-            <td>${left ? left.points : ""}</td>
+        }
 
-            <td>${right ? i + 17 : ""}</td>
-            <td style="text-align:left;">${right ? right.name : ""}</td>
-            <td>${right ? right.points : ""}</td>
-        </tr>
-    `;
+
+        lastHash = data.hash;
+
+
+        renderRanking(data.players);
+
+
+
+    }
+    catch (error) {
+
+        console.log(
+            "Overlay error:",
+            error
+        );
+
     }
 
-    fullBody.innerHTML = fullHTML;
-    splitBody.innerHTML = splitHTML;
 }
 
-loadTable();
-setInterval(loadTable, 3000);
+
+
+
+
+function renderRanking(players) {
+
+
+    const ranking =
+        document.getElementById("ranking");
+
+
+    const top8 =
+        document.getElementById("top8");
+
+
+
+    if (!ranking || !top8) {
+
+        console.log(
+            "Brak kontenerów tabel"
+        );
+
+        return;
+
+    }
+
+
+
+    ranking.innerHTML = "";
+    top8.innerHTML = "";
+
+
+
+    players.forEach(player => {
+
+
+        let row =
+            document.createElement("div");
+
+
+        row.className = "player";
+
+
+        row.innerHTML = `
+
+    <div>${player.rank}</div>
+    <div class="nick">${player.nick}</div>
+    <div>${player.points}</div>
+    <div>${player.avg}</div>
+
+`;
+
+
+        ranking.appendChild(row);
+
+
+    });
+
+
+
+
+
+    players.slice(0, 8)
+        .forEach((player, index) => {
+
+
+            let row =
+                document.createElement("div");
+
+
+            row.className = "top-player";
+
+
+            let medal = "";
+
+
+            if (index === 0)
+                medal = "🥇";
+
+            if (index === 1)
+                medal = "🥈";
+
+            if (index === 2)
+                medal = "🥉";
+
+
+
+            row.innerHTML = `
+
+            <div class="place">
+                ${medal || player.rank}
+            </div>
+
+
+            <div class="top-nick">
+                ${player.nick}
+            </div>
+
+
+            <div class="top-points">
+                ${player.points}
+            </div>
+
+
+        `;
+
+
+
+            top8.appendChild(row);
+
+
+        });
+
+
+}
+
+
+
+
+checkRanking();
+
+
+setInterval(
+    checkRanking,
+    5000
+);
